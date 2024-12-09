@@ -385,9 +385,10 @@ def preprocess_data(train_x, test_x) -> (pd.DataFrame, pd.DataFrame):
 
 def preprocess_target(label) -> pd.DataFrame:
     label = pd.DataFrame(label)
+    label = pd.factorize(label, use_na_sentinel=False)[0]
     cols = label.columns
-    imp_nan = SimpleImputer(missing_values=np.nan, strategy='mean')
-    label = imp_nan.fit_transform(label)
+    # imp_nan = SimpleImputer(missing_values=np.nan, strategy='mean')
+    # label = imp_nan.fit_transform(label)
     label = pd.DataFrame(label).fillna(0)
     label.columns = cols
     return label

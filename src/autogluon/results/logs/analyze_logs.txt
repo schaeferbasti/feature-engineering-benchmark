@@ -1,0 +1,112 @@
+Evaluation of the Results 
+
+ada, autofeat, AutoGluon_Pipeline-12155428_0000.out (Failed) 
+  File "/work/dlclarge1/schaefeb-AutoFE/Benchmark_FE_AutoML/src/autogluon/method/tabular/src/autogluon/tabular/learner/abstract_learner.py", line 701, in _validate_class_labels
+    raise ValueError(
+ValueError: Multiclass scoring with eval_metric='log_loss' does not support unknown classes. Please ensure the classes you wish to evaluate are present in the training data, otherwise they cannot be scored with this metric.
+	Unknown classes: [0.24235181644359466]
+	  Known classes: [0.0, 0.25401459854014596, 1.0]
+
+ada, correlationbased, AutoGluon_Pipeline-12155428_0003.out (0.0 ± 0.0) 
+No data can be read. "Can't find the file" error when opening the feature engineered datasets
+
+adult, autogluon, AutoGluon_Pipeline-12155428_0013.out (Failed)
+    X = self._validate_input(X, in_fit=True)
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/sklearn/impute/_base.py", line 337, in _validate_input
+    raise new_ve from None
+ValueError: Cannot use mean strategy with non-numeric data:
+could not convert string to float: '<=50K'
+
+albert, mljar, AutoGluon_Pipeline-12155428_0045.out (Failed) 
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/sklearn/utils/validation.py", line 126, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/sklearn/utils/validation.py", line 175, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains infinity or a value too large for dtype('float64').
+
+anneal, original, AutoGluon_Pipeline-12155428_0075.out (Failed) 
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/pandas/core/internals/managers.py", line 238, in set_axis
+    self._validate_set_axis(axis, new_labels)
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/pandas/core/internals/base.py", line 98, in _validate_set_axis
+    raise ValueError(
+ValueError: Length mismatch: Expected axis has 32 elements, new values have 38 elements
+
+arcene, featurewiz, AutoGluon_Pipeline-12155428_0094.out (Failed)
+2024-11-19 20:59:43,025	ERROR worker.py:406 -- Unhandled error (suppress with 'RAY_IGNORE_UNHANDLED_ERRORS=1'): The worker died unexpectedly while executing this task. Check python-core-worker-*.log files for more information.
+[36m(_dystack pid=3454)[0m   warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+
+Australian, mljar, AutoGluon_Pipeline-12155428_0109.out (Failed)
+  warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+TBB Warning: The number of workers is currently limited to 7. The request for 31 workers is ignored. Further requests for more workers will be silently ignored until the limit changes.
+
+[36m(_dystack pid=9558)[0m   warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+
+Bioresponse, bioautoml, AutoGluon_Pipeline-12155428_0128.out (Failed) 
+2024-11-20 10:21:08,002	ERROR worker.py:406 -- Unhandled error (suppress with 'RAY_IGNORE_UNHANDLED_ERRORS=1'): The worker died unexpectedly while executing this task. Check python-core-worker-*.log files for more information.
+	Memory not enough to fit 8 folds in parallel. Will train 4 folds in parallel instead (Estimated 18.63% memory usage per fold, 74.52%/80.00% total).
+
+cmc, autofeat, AutoGluon_Pipeline-12155428_0201.out (Failed) 
+	('y does not contain exactly 2 unique values:', [2.0, 3.0, 1.0])
+Warning: Exception encountered during DyStack sub-fit:
+	('y does not contain exactly 2 unique values:', [1.0, 2.0, 3.0])
+Warning: Exception encountered during DyStack sub-fit:
+	('y does not contain exactly 2 unique values:', [3.0, 1.0, 2.0])
+
+connect-4, nfs, AutoGluon_Pipeline-12155428_0235.out (Failed) 
+	Memory not enough to fit 8 folds in parallel. Will train 4 folds in parallel instead (Estimated 13.96% memory usage per fold, 55.85%/80.00% total).
+
+madeline, openfe, AutoGluon_Pipeline-12155428_0556.out (Failed) 
+	Memory not enough to fit 8 folds in parallel. Will train 1 folds in parallel instead (Estimated 50.75% memory usage per fold, 50.75%/80.00% total).
+		Switching to pseudo sequential ParallelFoldFittingStrategy to avoid Python memory leakage.
+		Overrule this behavior by setting fold_fitting_strategy to 'sequential_local' in ag_args_ensemble when when calling `predictor.fit`
+
+mfeat-factors, nfs, AutoGluon_Pipeline-12155428_0567.out (Failed)
+	('y does not contain exactly 2 unique values:', [5.0, 7.0, 1.0, 6.0, 9.0, 10.0, 8.0, 3.0, 4.0, 2.0])
+	Memory not enough to fit 8 folds in parallel. Will train 2 folds in parallel instead (Estimated 28.97% memory usage per fold, 57.94%/80.00% total).
+Warning: Exception encountered during DyStack sub-fit:
+	('y does not contain exactly 2 unique values:', [3.0, 2.0, 5.0, 1.0, 4.0, 7.0, 10.0, 8.0, 9.0, 6.0])
+	Memory not enough to fit 8 folds in parallel. Will train 4 folds in parallel instead (Estimated 10.03% memory usage per fold, 40.14%/80.00% total).
+
+pc4, openfe, AutoGluon_Pipeline-12155428_0655.out (Failed) 
+	Memory not enough to fit 8 folds in parallel. Will train 4 folds in parallel instead (Estimated 10.51% memory usage per fold, 42.02%/80.00% total).
+
+PhishingWebsites, featurewiz, AutoGluon_Pipeline-12155428_0674.out (Failed) 
+	No valid features to train KNeighborsDist_BAG_L1... Skipping this model.
+[36m(_dystack pid=1905759)[0m   warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+
+volkert, mljar, AutoGluon_Pipeline-12155428_0838.out (Failed) 
+  File "/work/dlclarge1/schaefeb-AutoFE/Benchmark_FE_AutoML/src/autogluon/method/core/src/autogluon/core/models/abstract/abstract_model.py", line 1057, in _predict_proba
+    y_pred_proba = self.model.predict_proba(X)
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/sklearn/neighbors/_classification.py", line 383, in predict_proba
+    raise ValueError(
+ValueError: All neighbors of some sample is getting zero weights. Please modify 'weights' to avoid this case if you are using a user-defined function.
+
+yeast, original, AutoGluon_Pipeline-12155428_0879.out (Failed) 
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/pandas/io/parquet.py", line 140, in _get_path_or_handle
+    handles = get_handle(
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/pandas/io/common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+FileNotFoundError: [Errno 2] No such file or directory: 'src/datasets/feature_engineered_datasets/exec_times_APSFailure_autofeat/exec_times_APSFailure_autofeat_0.parquet'
+
+  File "/work/dlclarge1/schaefeb-AutoFE/Benchmark_FE_AutoML/src/autogluon/run_autogluon_parallel.py", line 121, in <module>
+    main(args)
+  File "/work/dlclarge1/schaefeb-AutoFE/Benchmark_FE_AutoML/src/autogluon/run_autogluon_parallel.py", line 19, in main
+    dataset_files = sorted(os.listdir(Path(path)))
+NotADirectoryError: [Errno 20] Not a directory: 'src/datasets/feature_engineered_datasets/move_datasets.py'
+
+Brazilian_houses, boruta (Failed) 
+  File "/home/schaefeb/.local/lib/python3.10/site-packages/sklearn/utils/validation.py", line 833, in check_array
+    dtype_orig = np.result_type(*dtypes_orig)
+ValueError: at least one array or dtype is required
+[36m(_dystack pid=1516538)[0m   warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+
+house_prices_nominal, nfs (0.0 ± 0.0) 
+  y_pred[:, j] = num / denom
+/work/dlclarge1/schaefeb-AutoFE/Benchmark_FE_AutoML/src/autogluon/method/tabular/src/autogluon/tabular/models/knn/_knn_loo_variants.py:131: RuntimeWarning: invalid value encountered in divide
+  y_pred[:, j] = num / denom
+/home/schaefeb/.local/lib/python3.10/site-packages/sklearn/neighbors/_regression.py:261: RuntimeWarning: invalid value encountered in divide
+  y_pred[:, j] = num / denom
+
+pol, nfs (0.0 ± 0.0) 
+2024-11-22 08:11:49,500	ERROR worker.py:406 -- Unhandled error (suppress with 'RAY_IGNORE_UNHANDLED_ERRORS=1'): The worker died unexpectedly while executing this task. Check python-core-worker-*.log files for more information.
+	Memory not enough to fit 8 folds in parallel. Will train 2 folds in parallel instead (Estimated 23.69% memory usage per fold, 47.37%/80.00% total).

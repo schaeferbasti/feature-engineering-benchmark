@@ -7,7 +7,7 @@ import pandas as pd
 from src.autogluon.method.tabular.src.autogluon.tabular import (TabularDataset, TabularPredictor)
 from sklearn.exceptions import UndefinedMetricWarning
 
-from src.datasets.Datasets import preprocess_data, preprocess_target
+# from src.datasets.Datasets import preprocess_data, preprocess_target
 from src.datasets.Splits import get_splits
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -21,6 +21,7 @@ def main(args):
     method = None
     dataset = None
     task_hint = None
+
     for dataset_file in dataset_files:
         core_name = dataset_file[:-len('.parquet')]
         parts = core_name.split('_')
@@ -33,6 +34,37 @@ def main(args):
         dataset = '_'.join(parts)
         print(
             f"\n****************************************\n {task_hint} - {dataset} - {method} - {fold} \n****************************************")
+
+        """
+        If running on a SLURM cluster, we need to initialize Ray with extra options and a unique tempr dir.
+        Otherwise, given the shared filesystem, Ray will try to use the same temp dir for all workers and crash (semi-randomly).
+        """
+        import logging
+        import ray
+        import uuid
+        import base64
+        import time
+        log = logging.getLogger(__name__)
+        ray_mem_in_gb = 32
+        log.info(f"Running on SLURM, initializing Ray with unique temp dir with {ray_mem_in_gb}GB.")
+        ray_mem_in_b = int(ray_mem_in_gb * (1024.0 ** 3))
+        timestamp = time.time()
+        tmp_dir_base_path = "tmp_dir_base_path" + str(method) + str(dataset) + str(fold) + str(timestamp)
+        uuid_short = base64.urlsafe_b64encode(uuid.uuid4().bytes).rstrip(b'=').decode('ascii')
+        ray_dir = f"{tmp_dir_base_path}/{uuid_short}/ray"
+        print(f"Start local ray instances. Using {os.environ.get('RAY_MEM_IN_GB')} GB for Ray.")
+        ray.init(
+            address="local",
+            _memory=ray_mem_in_b,
+            object_store_memory=int(ray_mem_in_b * 0.3),
+            _temp_dir=ray_dir,
+            include_dashboard=False,
+            logging_level=logging.INFO,
+            log_to_driver=True,
+            num_gpus=0,
+            num_cpus=8,
+        )
+
         try:
             exec_path = f"src/datasets/feature_engineered_datasets/exec_times/exec_times_{dataset}_{method}_{fold}.parquet"
             execution_times = pd.read_parquet(Path(exec_path))
@@ -57,9 +89,9 @@ def main(args):
                 y = data[label]
                 print("Split data")
                 train_x, train_y, test_x, test_y = get_splits(X, y, int(fold))
-                train_x, test_x = preprocess_data(train_x, test_x)
-                train_y = preprocess_target(train_y)
-                test_y = preprocess_target(test_y)
+                # train_x, test_x = preprocess_data(train_x, test_x)
+                # train_y = preprocess_target(train_y)
+                # test_y = preprocess_target(test_y)
 
                 train_data = pd.concat([train_x, train_y], axis=1)
                 test_data = pd.concat([test_x, test_y], axis=1)
@@ -83,17 +115,15 @@ def main(args):
                                                      eval_metric="roc_auc").fit(
                             train_data=train_data, time_limit=time_limit, num_cpus=num_cpus, presets="best_quality",
                             memory_limit=memory_limit)
-                        eval_dict = predictor.evaluate(test_data)
-                        leaderboard = predictor.leaderboard(test_data)
                     except AssertionError:
                         task_hint = 'multiclass'
                         print("Multiclass Classification")
                         predictor = TabularPredictor(label=label, verbosity=4, problem_type=task_hint,
-                                                     eval_metric="log_loss").fit(
+                                                     eval_metric="None").fit(
                             train_data=train_data, time_limit=time_limit, num_cpus=num_cpus, presets="best_quality",
                             memory_limit=memory_limit)
-                        eval_dict = predictor.evaluate(test_data)
-                        leaderboard = predictor.leaderboard(test_data)
+                    eval_dict = predictor.evaluate(test_data)
+                    leaderboard = predictor.leaderboard(test_data)
                 elif task_hint == 'multiclass-classification':
                     task_hint = 'multiclass'
                     print("Multiclass Classification")
