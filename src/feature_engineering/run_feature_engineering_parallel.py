@@ -24,7 +24,7 @@ from src.feature_engineering.OpenFE.OpenFE import get_openFE_features
 
 
 def main(args):
-    method_dataset = args.method
+    method_dataset = args.method_dataset
     # extract method name and task number from args
     temp = re.compile("([a-zA-Z]+)([0-9]+)")
     res = temp.match(method_dataset).groups()
