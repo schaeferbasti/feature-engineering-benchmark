@@ -4,10 +4,11 @@ import re
 import time
 
 import pandas as pd
-from pynisher import limit, WallTimeoutException, MemoryLimitException, PynisherException
+from pynisher import limit, WallTimeoutException, MemoryLimitException
 
 from src.datasets.Datasets import get_amlb_dataset, construct_dataframe
 
+# Imports for all working methods
 from src.feature_engineering.autofeat.Autofeat import get_autofeat_features
 from src.feature_engineering.AutoGluon.AutoGluon import get_autogluon_features
 from src.feature_engineering.BioAutoML.BioAutoML import get_bioautoml_features
@@ -19,7 +20,6 @@ from src.feature_engineering.H2O.H2O import get_h2o_features
 from src.feature_engineering.MACFE.MACFE import get_macfe_features
 from src.feature_engineering.MAFESE.MAFESE import get_mafese_features
 from src.feature_engineering.MLJAR.MLJAR import get_mljar_features
-# from src.feature_engineering.NFS.NFS import get_nfs_features
 from src.feature_engineering.OpenFE.OpenFE import get_openFE_features
 
 
@@ -29,9 +29,9 @@ def main(args):
     temp = re.compile("([a-zA-Z]+)([0-9]+)")
     res = temp.match(method_and_task).groups()
     method = res[0]
-    task_id = res[1]
+    dataset_task_id = res[1]
     # call execution method per method and task
-    run_and_save(method, task_id)
+    run_and_save(method, dataset_task_id)
 
 
 def run_and_save(method, task_id):
@@ -42,10 +42,10 @@ def run_and_save(method, task_id):
         # Put it back together
         df = construct_dataframe(train_x, train_y, test_x, test_y)
         # Save it in file if it does not exist
-        if not os.path.isfile('src/datasets/feature_engineered_datasets/' + task_hint + "_" + name + '_original_' + str(split) + '.parquet'):
-            df.to_parquet('src/datasets/feature_engineered_datasets/' + task_hint + "_" + name + '_original_' + str(split) + '.parquet', index=False)
+        if not os.path.isfile('src/datasets/feature_engineered_datasets/' + task_hint + '_' + name + '_original' + '/' + task_hint + "_" + name + '_original_' + str(split) + '.parquet'):
+            df.to_parquet('src/datasets/feature_engineered_datasets/' + task_hint + '_' + name + '_original' + '/' + task_hint + "_" + name + '_original_' + str(split) + '.parquet', index=False)
         df_times = pd.DataFrame()
-        if not os.path.isfile('src/datasets/feature_engineered_datasets/' + task_hint + '_' + name + '_' + method + '_' + str(split) + '.parquet'):
+        if not os.path.isfile('src/datasets/feature_engineered_datasets/' + task_hint + '_' + name + '_' + method + '/' + task_hint + '_' + name + '_' + method + '_' + str(split) + '.parquet'):
             # Pass different splits to fe methods and save time needed for fe
             df_times = get_and_save_features(df_times, train_x, train_y, test_x, test_y, name, method, split, task_hint)
             df_times.to_parquet('src/datasets/feature_engineered_datasets/exec_times/exec_times_' + name + '_' + method + '_' + str(split) + '.parquet', index=False)
@@ -338,13 +338,13 @@ def get_and_save_features(df_times, train_x, train_y, test_x, test_y, name, meth
             df = pd.DataFrame()
     """
 
-    df.to_parquet('src/datasets/feature_engineered_datasets/' + task_hint + '_' + name + '_' + method + '_' + str(split) + '.parquet', index=False)
+    df.to_parquet('src/datasets/feature_engineered_datasets/' + task_hint + '_' + name + '_' + method + '/' + task_hint + '_' + name + '_' + method + '_' + str(split) + '.parquet', index=False)
     df_times = df_times._append({'Dataset': name, 'Method': method, 'Time': execution_time}, ignore_index=True)
     return df_times
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run feature engineering methods')
-    parser.add_argument('--method', type=str, required=True, help='Feature engineering dataset to use')
+    parser.add_argument('--method', type=str, required=True, help='Feature engineering dataset')
     args = parser.parse_args()
     main(args)
