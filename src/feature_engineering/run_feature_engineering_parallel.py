@@ -29,7 +29,7 @@ def main(args):
     temp = re.compile("([a-zA-Z]+)([0-9]+)")
     res = temp.match(method_dataset).groups()
     method = res[0]
-    dataset = res[1]
+    dataset = int(res[1])
     # call execution method per method and task
     run_and_save(method, dataset)
 
