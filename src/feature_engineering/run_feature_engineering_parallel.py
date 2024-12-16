@@ -24,21 +24,21 @@ from src.feature_engineering.OpenFE.OpenFE import get_openFE_features
 
 
 def main(args):
-    method_and_task = args.method
+    method_dataset = args.method
     # extract method name and task number from args
     temp = re.compile("([a-zA-Z]+)([0-9]+)")
-    res = temp.match(method_and_task).groups()
+    res = temp.match(method_dataset).groups()
     method = res[0]
-    dataset_task_id = res[1]
+    dataset = res[1]
     # call execution method per method and task
-    run_and_save(method, dataset_task_id)
+    run_and_save(method, dataset)
 
 
-def run_and_save(method, task_id):
+def run_and_save(method, dataset):
     splits = 10
     for split in range(splits):
         # Get splits of dataset
-        train_x, train_y, test_x, test_y, name, task_hint = get_amlb_dataset(task_id, split)
+        train_x, train_y, test_x, test_y, name, task_hint = get_amlb_dataset(dataset, split)
         # Put it back together
         df = construct_dataframe(train_x, train_y, test_x, test_y)
         # Save it in file if it does not exist
@@ -303,7 +303,7 @@ def get_and_save_features(df_times, train_x, train_y, test_x, test_y, name, meth
             train_x, test_x = fe(train_x, train_y, test_x, 1, name)
             end_time = time.time()  #
             execution_time = end_time - start_time
-            df = construct_dataframe(train_x, train_y, test_x, test_y)
+            df = construct_dataframe(train_x, train_y, test_x, r)
         except WallTimeoutException:
             print(WallTimeoutException)
             print(fe.wall_time)
@@ -345,6 +345,6 @@ def get_and_save_features(df_times, train_x, train_y, test_x, test_y, name, meth
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run feature engineering methods')
-    parser.add_argument('--method', type=str, required=True, help='Feature engineering dataset')
+    parser.add_argument('--method_dataset', type=str, required=True, help='Feature engineering dataset')
     args = parser.parse_args()
     main(args)
