@@ -13,7 +13,6 @@
 # Define the amount of memory required per node
 #SBATCH --mem 32GB
 #SBATCH --cpus-per-task=8
-#SBATCH --gres=localtmp:100
 
 #Time Format = days-hours:minutes:seconds
 #SBATCH --time=0-04:00:00
