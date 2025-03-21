@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the partition on which the job shall run.
-#SBATCH --partition xxx
+#SBATCH --partition dev_cpuonly
 
 # Define a name for your job
 #SBATCH --job-name FE_Pipeline
