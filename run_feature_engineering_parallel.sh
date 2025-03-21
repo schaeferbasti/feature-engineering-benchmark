@@ -15,6 +15,9 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=localtmp:100
 
+#Time Format = days-hours:minutes:seconds
+#SBATCH --time=0-04:00:00
+
 #SBATCH --propagate=NONE
 
 # Define job array
