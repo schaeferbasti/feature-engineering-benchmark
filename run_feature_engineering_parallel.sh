@@ -20,7 +20,7 @@
 #SBATCH --propagate=NONE
 
 # Define job array
-#SBATCH --array=0-1351  # Adjust based on the number of methods
+#SBATCH --array=0-1  # Adjust based on the number of methods
 
 echo "Workingdir: $PWD"
 echo "Started at $(date)"
@@ -30,13 +30,18 @@ echo "Running job $SLURM_JOB_NAME using $SLURM_JOB_CPUS_PER_NODE cpus per node w
 
 # Activate your environment
 # shellcheck disable=SC1090
-source ~/miniconda3/bin/activate
-conda activate amltk_env
-echo "conda amltk_env activated"
+# source ~/miniconda3/bin/activate
+# conda activate amltk_env
+# echo "conda amltk_env activated"
+# virtualenv -p python fe_env
+python -m venv fe_env
+# $ source fe_env/bin/activate
+source fe_env/bin/activate
 
 # Install requirements
-python3 -m pip install --upgrade pip
-pip install -r ../../requirements.txt
+python -m pip install --upgrade pip
+python -m ensurepip --default-pip
+pip install -r requirements.txt
 echo "Requirements installed"
 # shellcheck disable=SC1068
 
@@ -55,11 +60,13 @@ method_dataset=${methods_datasets[$SLURM_ARRAY_TASK_ID]}
 start=`date +%s`
 
 echo "Running Method: $method_dataset"
-python3 src/feature_engineering/run_feature_engineering_parallel.py --method_dataset "$method_dataset"
+python src/feature_engineering/run_feature_engineering_parallel.py --method_dataset "$method_dataset"
 
 # shellcheck disable=SC2006
 end=`date +%s`
 runtime=$((end-start))
+
+deactivate
 
 echo "Job execution complete."
 echo "Runtime: $runtime"
